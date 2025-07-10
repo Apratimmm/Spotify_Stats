@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top-artists</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+</head>
+<body>
+
+<div class="home">
+    <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
+</div>
+
+{% for artist in artist.items %}
+
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+            <div class="uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
+                <img src="{{ artist.images.0.url }}" class="image">
+
+                <div class="uk-position-center" >
+
+                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="text-align:center; color:#000000;">{{ artist.name }}</h4></div>
+                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="color:#000000;">Followers: {{ artist.followers.total }}</h4></div>
+
+                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000;">
+                        {% if artist.genres.0 %}
+                               Genre: {{ artist.genres.0 }}
+                        {% endif %}
+                    </h4></div>
+                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000;">Popularity: {{ artist.popularity }}</h4></div>
+
+
+                </div>
+            </div>
+        </div>
+
+{% endfor %}
+
+
+</body>
+
+<style>
+
+    .uk-button.uk-button-text
+    {
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 25px;
+        font-weight: bold;
+        font-style: italic;
+
+    }
+
+    .home
+    {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+    }
+
+    body
+    {
+        background-color: #38dc7d;
+        margin: 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        align-content: center;
+        min-height: 100vh;
+        gap: 20px;
+        border-left: 150px solid #38dc7d;
+        border-right: 150px solid #38dc7d;
+    }
+
+    .uk-card.uk-card-default.uk-card-hover.uk-card-body
+    {
+        display: inline-block;
+        border-radius: 220px;
+        width: 355px;
+        height: 350px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .uk-inline-clip.uk-transition-toggle.uk-light
+    {
+        border: solid 3px black;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+        border-radius: 220px;
+        width: 99%;
+        height: 99%;
+    }
+
+    .uk-inline-clip.uk-transition-toggle.uk-light:hover img
+    {
+        opacity: 0.3;
+    }
+
+    .uk-position-center
+    {
+        width: 220px;
+    }
+</style>
+<script>
+
+</script>
+</html>
+
+

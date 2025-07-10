@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User-Playlist</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+</head>
+<body>
+
+<div class="home">
+    <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
+</div>
+
+    {% for pl in playlist.items %}
+    <div class="uk-animation-toggle" tabindex="0">
+        <div class="uk-card uk-card-default uk-card-body uk-animation-scale-up">
+            <div class="uk-inline" style="margin: auto; height: 340px; width: 340px;" onmouseenter="showInfo(event)" onmouseleave="hideInfo(event)">
+                <img src="{{ pl.images.0.url }}" style="height: 100%;width: 100%;" class="image">
+                <div class="uk-overlay uk-overlay-default uk-position-bottom info" style="display: none;" >
+                    <p><strong>Name:</strong> {{ pl.name }}<a href="{{ pl.external_urls.spotify }}" style="color: grey;"> ↗ </a> </p>
+                    <p><strong>Total Tracks:</strong> {{ pl.tracks.total }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</body>
+
+<style>
+
+    .uk-button.uk-button-text
+    {
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 25px;
+        font-weight: bold;
+        font-style: italic;
+
+    }
+
+    .home
+    {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+    }
+
+    body
+    {
+        background-color: #38dc7d;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        align-content: space-around;
+        gap: 30px;
+        border-top: 30px solid #38dc7d;
+        border-bottom: 30px solid #38dc7d;
+    }
+
+    .uk-card.uk-card-default.uk-card-body.uk-animation-scale-up
+    {
+        background-color: #2c2c2c;
+        border: solid 1px black;
+        border-radius: 24px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        padding: 10px, 10px, 10px, 10px;
+    }
+
+    .image
+    {
+        border:none;
+        border-radius: 22px;
+        box-shadow: 0px 0px 14px rgba(255,255,255, 0.8);
+    }
+
+    .uk-overlay.uk-overlay-default.uk-position-bottom.info
+    {
+        border: solid 3px;
+        border-left-color: #38dc7d;
+        border-right-color: #38dc7d;
+        border-bottom-color: #38dc7d;
+        border-top-color: #38dc7d;
+        border-bottom-left-radius: 22px;
+        border-bottom-right-radius: 22px;
+    }
+
+    p
+    {
+
+        font-size: 17px;
+    }
+</style>
+<script>
+
+    function showInfo(event)
+    {
+        const source = event.target.closest(".uk-animation-toggle");
+        const image = source.querySelector('.image');
+        const info = source.querySelector('.info');
+        image.style.opacity = "0.5";
+        info.style.display = "block";
+        info.style.opacity = "1";
+    }
+
+    function hideInfo(event)
+    {
+        const source = event.target.closest(".uk-animation-toggle");
+        const image = source.querySelector('.image');
+        const info = source.querySelector('.info');
+        image.style.opacity = "1";
+        info.style.display = "none";
+    }
+
+</script>
+</html>
+
+
+
+
