@@ -13,7 +13,7 @@ This is a django based web application that allows the user to view multiple sta
 - Responsive UI with Django templates
 - Usage of ULKIT [front-end framework]
 
-# Tech Stack
+# Tech_Stack
 
 - Python 3
 - Django
@@ -22,7 +22,7 @@ This is a django based web application that allows the user to view multiple sta
 - ULKIT
 - Spotify API
 
-# Setup instructions
+# Setup_instructions
 
 1. Clone the repository**
 
