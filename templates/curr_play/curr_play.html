@@ -13,6 +13,10 @@
     <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
 </div>
 
+<div class="caution">
+    <a class="uk-link-reset" title="Make sure you are playing a song on spotify">INFO</a>
+</div>
+
 <div class="uk-card uk-card-default uk-width-1-2@m">
 
     <div class="uk-card-header">
@@ -72,6 +76,14 @@
     {
         position: fixed;
         top: 10px;
+        left: 10px;
+        z-index: 1000;
+    }
+
+    .caution
+    {
+        position: absolute;
+        top: 50px;
         left: 10px;
         z-index: 1000;
     }
