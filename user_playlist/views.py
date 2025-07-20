@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 import pprint
 from home.necc_methods import getcallbackurl,getspotipyobject
 
-spo_redirecturl="http://127.0.0.1:8000/user_playlist/callback/"
+spo_redirecturl="https://spotify-stats-nvu0.onrender.com/user_playlist/callback/"
 scope = "playlist-read-private"
 
 def first(request):

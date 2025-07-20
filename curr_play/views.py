@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 import pprint
 from home.necc_methods import getcallbackurl,getspotipyobject
 
-spo_redirecturl="http://127.0.0.1:8000/curr_play/callback/"
+spo_redirecturl="https://spotify-stats-nvu0.onrender.com/curr_play/callback/"
 scope = "user-read-currently-playing user-read-playback-state"
 
 def first(request):
