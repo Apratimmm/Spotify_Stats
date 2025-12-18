@@ -24,7 +24,7 @@ This is a django based web application that allows the user to view multiple sta
 
 # Setup_instructions
 
-1. Clone the repository**
+1. **Clone the repository**
 
     ```bash
     git clone  https://github.com/Apratimmm/Spotify_Stats.git
