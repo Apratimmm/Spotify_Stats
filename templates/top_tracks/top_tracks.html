@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Top-tracks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
@@ -22,30 +25,30 @@
                 <img class="uk-border-circle" src="{{ track.album.images.0.url }}">
             </div>
             <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-size:35px">{{ track.name }} <a href=" {{ track.external_urls.spotify }}" style="color:grey;font-size:20px;"> ↗ </a></h3>
-                <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px">{{ track.album.name }}<a href=" {{ track.album.external_urls.spotify }}"> ↗ </a> </p>
+                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-size:35px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">{{ track.name }} <a href=" {{ track.external_urls.spotify }}" style="color:grey;font-size:20px;"> ↗ </a></h3>
+                <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;">{{ track.album.name }}<a href=" {{ track.album.external_urls.spotify }}"> ↗ </a> </p>
             </div>
         </div>
     </div>
 
     <div class="uk-card-header two ">
         {% if track.artists|length == 1 %}
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px"><i>Artist</i> : {{ track.artists.0.name }}<a href="{{ track.artists.0.external_urls.spotify }}"> ↗ </a> </p>
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ track.artists.0.name }}<a href="{{ track.artists.0.external_urls.spotify }}"> ↗ </a> </p>
         {% else %}
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px"><i>Artist</i> : {{ track.artists.0.name }}<a href="{{ track.artists.0.external_urls.spotify }}"> ↗ </a> ( & others ) </p>
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ track.artists.0.name }}<a href="{{ track.artists.0.external_urls.spotify }}"> ↗ </a> ( & others ) </p>
         {% endif %}
     </div>
 
     <div class="uk-card-header two">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px"><i>Track_no</i> : {{ track.track_number }} / {{ track.album.total_tracks }}</p>
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Track_no</i> : {{ track.track_number }} / {{ track.album.total_tracks }}</p>
     </div>
 
     <div class="uk-card-header two">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px"><i>Popularity</i> : {{ track.popularity }}</p>
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Popularity</i> : {{ track.popularity }}</p>
     </div>
 
     <div class="uk-card-footer">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px"><i>Release_date</i> : {{ track.album.release_date }}</p>
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Release_date</i> : {{ track.album.release_date }}</p>
     </div>
 </div>
 {% endfor %}
@@ -55,11 +58,11 @@
 
     .uk-button.uk-button-text
     {
-        font-family: 'Ubuntu', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-size: 25px;
-        font-weight: bold;
+        font-weight: 600;
         font-style: italic;
-
+        letter-spacing: 0.5px;
     }
 
     .home
@@ -85,10 +88,13 @@
       border-radius: 25px;
       width: auto;
       height: 448px;
+      font-family: 'Inter', sans-serif;
     }
 
     html, body
     {
+        margin: 0;
+        padding: 0;
         background-color: #38dc7d;
         display: flex;
         flex-direction: row;
@@ -97,9 +103,10 @@
         flex-wrap: wrap;
         align-content: space-around;
         gap: 20px;
-        height: auto;
+        min-height: 100vh;
         border-top: 25px solid  #38dc7d;
         border-bottom: 25px solid  #38dc7d;
+        font-family: 'Inter', sans-serif;
     }
 
     .uk-card-header

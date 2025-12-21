@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>User-Playlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
@@ -13,19 +16,37 @@
     <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
 </div>
 
-    {% for pl in playlist.items %}
-    <div class="uk-animation-toggle" tabindex="0">
-        <div class="uk-card uk-card-default uk-card-body uk-animation-scale-up">
-            <div class="uk-inline" style="margin: auto; height: 340px; width: 340px;" onmouseenter="showInfo(event)" onmouseleave="hideInfo(event)">
-                <img src="{{ pl.images.0.url }}" style="height: 100%;width: 100%;" class="image">
-                <div class="uk-overlay uk-overlay-default uk-position-bottom info" style="display: none;" >
-                    <p><strong>Name:</strong> {{ pl.name }}<a href="{{ pl.external_urls.spotify }}" style="color: grey;"> ↗ </a> </p>
-                    <p><strong>Total Tracks:</strong> {{ pl.tracks.total }}</p>
-                </div>
+{% for pl in playlist.items %}
+<div class="uk-card uk-card-default uk-width-1-2@m">
+
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" src="{{ pl.images.0.url }}">
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-size:35px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">{{ pl.name }} <a href="{{ pl.external_urls.spotify }}" style="color:grey;font-size:20px;"> ↗ </a></h3>
+                <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"></p>
             </div>
         </div>
     </div>
-    {% endfor %}
+
+    <div class="uk-card-header two">
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>By</i> : {{ pl.owner.display_name }}</p>
+    </div>
+    <div class="uk-card-header two">
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Total Tracks</i> : {{ pl.tracks.total }}</p>
+    </div>
+
+    <div class="uk-card-header two">
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Description</i> : {{ pl.description|default:"No description available" }}</p>
+    </div>
+
+    <div class="uk-card-footer">
+        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Public</i> : {{ pl.public|yesno:"Yes,No" }}</p>
+    </div>
+</div>
+{% endfor %}
 
 </body>
 
@@ -33,16 +54,16 @@
 
     .uk-button.uk-button-text
     {
-        font-family: 'Ubuntu', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-size: 25px;
-        font-weight: bold;
+        font-weight: 600;
         font-style: italic;
-
+        letter-spacing: 0.5px;
     }
 
     .home
     {
-        position: fixed;
+        position: absolute;
         top: 10px;
         left: 10px;
         z-index: 1000;
@@ -50,73 +71,53 @@
 
     html, body
     {
+        margin-top: 30px;
+        padding: 0;
         background-color: #38dc7d;
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
         flex-wrap: wrap;
-        align-content: space-around;
-        gap: 30px;
-        border-top: 30px solid #38dc7d;
-        border-bottom: 30px solid #38dc7d;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 20px;
+        min-height: 100vh;
+        padding-top: 60px;
+        border-top: 10px solid  #38dc7d;
+        border-bottom: 25px solid  #38dc7d;
+        font-family: 'Inter', sans-serif;
     }
 
-    .uk-card.uk-card-default.uk-card-body.uk-animation-scale-up
+    .uk-border-circle
     {
-        background-color: #2c2c2c;
-        border: solid 1px black;
-        border-radius: 24px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-        padding: 10px, 10px, 10px, 10px;
+        width: 220px;
+        height: 220px;
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.6);
     }
 
-    .image
+    .uk-card.uk-card-default
     {
-        border:none;
-        border-radius: 22px;
-        box-shadow: 0px 0px 14px rgba(255,255,255, 0.8);
+      border: 2px solid black;
+      border-radius: 25px;
+      width: auto;
+      height: auto;
+      font-family: 'Inter', sans-serif;
     }
 
-    .uk-overlay.uk-overlay-default.uk-position-bottom.info
+    .uk-card-header
     {
-        border: solid 3px;
-        border-left-color: #38dc7d;
-        border-right-color: #38dc7d;
-        border-bottom-color: #38dc7d;
-        border-top-color: #38dc7d;
-        border-bottom-left-radius: 22px;
-        border-bottom-right-radius: 22px;
+        padding-right: 15px;
     }
 
-    p
+    .uk-card-header.two, .uk-card-footer
     {
-
-        font-size: 17px;
+           padding-top: 8px;
+           padding-bottom: 8px;
     }
+
 </style>
-<script>
-
-    function showInfo(event)
-    {
-        const source = event.target.closest(".uk-animation-toggle");
-        const image = source.querySelector('.image');
-        const info = source.querySelector('.info');
-        image.style.opacity = "0.5";
-        info.style.display = "block";
-        info.style.opacity = "1";
-    }
-
-    function hideInfo(event)
-    {
-        const source = event.target.closest(".uk-animation-toggle");
-        const image = source.querySelector('.image');
-        const info = source.querySelector('.info');
-        image.style.opacity = "1";
-        info.style.display = "none";
-    }
-
-</script>
 </html>
 
 

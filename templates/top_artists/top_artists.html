@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Top-artists</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
@@ -21,15 +24,15 @@
 
                 <div class="uk-position-center" >
 
-                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="text-align:center; color:#000000;">{{ artist.name }}</h4></div>
-                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="color:#000000;">Followers: {{ artist.followers.total }}</h4></div>
+                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="text-align:center; color:#000000; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">{{ artist.name }}</h4></div>
+                    <div class="uk-transition-slide-top-small"><h4 class="uk-margin-remove" style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">Followers: {{ artist.followers.total }}</h4></div>
 
-                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000;">
+                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">
                         {% if artist.genres.0 %}
                                Genre: {{ artist.genres.0 }}
                         {% endif %}
                     </h4></div>
-                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000;">Popularity: {{ artist.popularity }}</h4></div>
+                    <div class="uk-transition-slide-bottom-small"><h4 class="uk-margin-remove" style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">Popularity: {{ artist.popularity }}</h4></div>
 
 
                 </div>
@@ -45,16 +48,16 @@
 
     .uk-button.uk-button-text
     {
-        font-family: 'Ubuntu', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-size: 25px;
-        font-weight: bold;
+        font-weight: 600;
         font-style: italic;
-
+        letter-spacing: 0.5px;
     }
 
     .home
     {
-        position: fixed;
+        position: absolute;
         top: 10px;
         left: 10px;
         z-index: 1000;
@@ -62,18 +65,19 @@
 
     html, body
     {
+        margin-top: 30px;
+        padding: 0;
         background-color: #38dc7d;
-        margin: 0px;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-        align-content: center;
         min-height: 100vh;
         gap: 20px;
-        border-left: 150px solid #38dc7d;
-        border-right: 150px solid #38dc7d;
+        padding-left: 150px;
+        padding-right: 150px;
+        font-family: 'Inter', sans-serif;
     }
 
     .uk-card.uk-card-default.uk-card-hover.uk-card-body
@@ -86,6 +90,7 @@
         padding-right: 0px;
         padding-top: 0px;
         padding-bottom: 0px;
+        flex: 0 0 355px;
     }
 
     .uk-inline-clip.uk-transition-toggle.uk-light
