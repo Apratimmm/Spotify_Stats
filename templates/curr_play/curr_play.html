@@ -1,73 +1,94 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Currently-playing</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
 </head>
+
 <body>
 
-<div class="home">
-    <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
-</div>
+    <div class="home">
+        <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
+    </div>
 
-<div class="caution">
-    <a class="uk-link-reset" title="Make sure you are playing a song on spotify">INFO</a>
-</div>
 
-<div class="uk-card uk-card-default uk-width-1-2@m">
-
-    <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" src="{{ song.item.album.images.0.url }}">
-            </div>
-            <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-size:40px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">{{ song.item.name }} <a href=" {{ song.item.external_urls.spotify }}" style="color:grey;font-size:20px;"> ↗ </a></h3>
-                <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Album</i> : {{ song.item.album.name }}<a href=" {{ song.item.album.external_urls.spotify }}"> ↗ </a> </p>
-            </div>
+    <div id="info-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body custom-modal">
+            <p style="font-family: 'Inter', sans-serif; font-size: 18px; color: #334155;">Make sure you are playing a song on spotify.</p>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button"
+                    style="border-radius: 50px; color: #334155; border-color: rgba(0,0,0,0.2);">Close</button>
+            </p>
         </div>
     </div>
 
-    <div class="uk-card-header">
-        {% if song.item.artists|length == 1 %}
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ song.item.artists.0.name }}<a href="{{ song.item.artists.0.external_urls }}"> ↗ </a> </p>
-        {% else %}
-            <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> :</p>
+    <div class="uk-card uk-card-default uk-width-1-2@m">
+
+        <div class="uk-card-header">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-border-circle" src="{{ song.item.album.images.0.url }}">
+                </div>
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-margin-remove-bottom"
+                        style="font-size:40px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">
+                        {{ song.item.name }} <a href=" {{ song.item.external_urls.spotify }}"
+                            style="color:grey;font-size:20px;"> ↗ </a></h3>
+                    <p class="uk-text-meta uk-margin-remove-top"
+                        style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Album</i> : {{ song.item.album.name }}<a href=" {{ song.item.album.external_urls.spotify }}"> ↗ </a> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-card-header">
+            {% if song.item.artists|length == 1 %}
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ song.item.artists.0.name }}<a href="{{ song.item.artists.0.external_urls }}"> ↗ </a> </p>
+            {% else %}
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> :</p>
             {% for artist in song.item.artists %}
-            <p class="uk-text-meta uk-margin-remove-top one" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;">{{ artist.name }}<a href="{{ artist.external_urls }}"> ↗ </a> </p>
+            <p class="uk-text-meta uk-margin-remove-top one"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;">{{ artist.name }}<a
+                    href="{{ artist.external_urls }}"> ↗ </a> </p>
             {% endfor %}
-        {% endif %}
-    </div>
+            {% endif %}
+        </div>
 
-    <div class="uk-card-header">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Playing_on</i> : {{ song.device.name }} ({{ song.device.type }})</p>
-    </div>
+        <div class="uk-card-header">
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Playing_on</i> : {{ song.device.name }} ({{ song.device.type }})</p>
+        </div>
 
-    <div class="uk-card-header">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Track_no</i> : {{ song.item.track_number }} / {{ song.item.album.total_tracks }}</p>
-    </div>
+        <div class="uk-card-header">
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Track_no</i> : {{ song.item.track_number }} / {{ song.item.album.total_tracks }}</p>
+        </div>
 
-    <div class="uk-card-header">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Popularity</i> : {{ song.item.popularity }}</p>
-    </div>
+        <div class="uk-card-header">
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Popularity</i> : {{ song.item.popularity }}</p>
+        </div>
 
-    <div class="uk-card-footer">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Release_date</i> : {{ song.item.album.release_date }}</p>
+        <div class="uk-card-footer">
+            <p class="uk-text-meta uk-margin-remove-top"
+                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Release_date</i> : {{ song.item.album.release_date }}</p>
+        </div>
     </div>
-</div>
 
 
 </body>
 <style>
-
-    .uk-button.uk-button-text
-    {
+    .uk-button.uk-button-text {
         font-family: 'Montserrat', sans-serif;
         font-size: 25px;
         font-weight: 600;
@@ -75,24 +96,21 @@
         letter-spacing: 0.5px;
     }
 
-    .home
-    {
+    .home {
         position: absolute;
         top: 10px;
         left: 10px;
         z-index: 1000;
     }
 
-    .caution
-    {
+    .caution {
         position: absolute;
         top: 50px;
         left: 10px;
         z-index: 1000;
     }
 
-    .uk-border-circle
-    {
+    .uk-border-circle {
         width: 220px;
         height: 220px;
         border: none;
@@ -100,16 +118,14 @@
         box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.6);
     }
 
-    .uk-card.uk-card-default
-    {
-      border: 2px solid black;
-      border-radius: 25px;
-      width: 840px;
-      font-family: 'Inter', sans-serif;
+    .uk-card.uk-card-default {
+        border: 2px solid black;
+        border-radius: 25px;
+        width: 840px;
+        font-family: 'Inter', sans-serif;
     }
 
-    .uk-link-reset
-    {
+    .uk-link-reset {
         font-family: 'Inter', sans-serif;
         font-weight: 600;
         font-style: italic;
@@ -118,8 +134,8 @@
         letter-spacing: 0.3px;
     }
 
-    html, body
-    {
+    html,
+    body {
         margin: 0;
         padding: 0;
         background-color: #38dc7d;
@@ -133,12 +149,18 @@
         font-family: 'Inter', sans-serif;
     }
 
-
+    .uk-modal-dialog.custom-modal {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+    }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        UIkit.modal('#info-modal').show();
+    });
+</script>
+
 </html>
-
-
-
-
-
-
