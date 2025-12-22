@@ -8,5 +8,6 @@ urlpatterns = [
     path('rec_play/',include('rec_play.urls')),
     path('user_playlist/',include('user_playlist.urls')),
     path('top_artists/',include('top_artists.urls')),
-    path('top_tracks/',include('top_tracks.urls'))
+    path('top_tracks/',include('top_tracks.urls')),
+    path('error/', v.error_page, name='error')
 ]

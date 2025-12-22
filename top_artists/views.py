@@ -23,10 +23,15 @@ def callback(request):
     code = request.GET.get('code')
 
     if code:
-        spo_redirecturl = request.session.get('spo_redirecturl')
-        s = getspotipyobject(scope, spo_redirecturl, code)
-        artist = s.current_user_top_artists(limit=5)
-        pprint.pprint(artist)
-        return render(request, 'top_artists/top_artists.html', {'artist': artist})
+        try:
+            spo_redirecturl = request.session.get('spo_redirecturl')
+            s = getspotipyobject(scope, spo_redirecturl, code)
+            artist = s.current_user_top_artists(limit=5)
+            pprint.pprint(artist)
+            return render(request, 'top_artists/top_artists.html', {'artist': artist})
+        except Exception as e:
+            print(f"Error in top_artists: {e}")
+            return redirect('error')
 
-    return render(request, 'top_artists/top_artists.html', {'error': 'Spotify login failed. Please try again.'})
+    return redirect('error')
+
