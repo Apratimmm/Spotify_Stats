@@ -2,40 +2,50 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Spotify Stats</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Access Denied - Spotify_Stats</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1DB954", // Spotify Green
+                        "primary-hover": "#1aa34a",
+                        "background-light": "#F3F4F6", // Gray 100
+                        "card-light": "#FFFFFF",
+                        "text-light": "#1F2937", // Gray 800
+                        "subtext-light": "#6B7280", // Gray 500
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                        accent: ["Montserrat", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                        'full': '9999px',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 15px rgba(29, 185, 84, 0.3)',
+                        'ultra': '0 30px 60px -12px rgba(0, 0, 0, 0.15)',
+                    }
+                },
+            },
+        };
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #38dc7d;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 600px;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.6s ease-out;
-            padding-bottom: 30px;
         }
 
         @keyframes fadeIn {
@@ -50,50 +60,56 @@
             }
         }
 
-        p {
-            font-family: 'Inter', sans-serif;
-            font-size: 18px;
-            color: #334155;
-            margin-bottom: 2rem;
-            margin-top: 1rem;
-        }
-
-        .uk-button.uk-button-default {
-            border-radius: 50px;
-            color: #334155;
-            border-color: rgba(0, 0, 0, 0.2);
-            background-color: transparent;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            padding: 0 30px;
-            line-height: 38px;
-            transition: all 0.3s ease;
-        }
-
-        .uk-button.uk-button-default:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.4);
-            color: black;
-        }
-
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            color: #1DB954;
-            margin-top: 10px;
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <p>
-            You can't see the content(s) because the email address linked to your spotify isn't present in the app's dashboard!
-        </p>
-        <a href="{% url 'home' %}" class="uk-button uk-button-default">
-            Close
-        </a>
+<body
+    class="bg-background-light min-h-screen antialiased selection:bg-primary selection:text-white flex items-center justify-center p-6 transition-colors duration-300">
+
+    <!-- Background Decor -->
+    <div class="fixed inset-0 bg-primary opacity-5 pointer-events-none z-0"></div>
+    <div class="fixed -top-40 -right-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
     </div>
+    <div
+        class="fixed -bottom-40 -left-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-md w-full relative z-10 animate-fade-in">
+        <div
+            class="bg-card-light rounded-[2.5rem] shadow-ultra p-10 text-center border border-white/50 backdrop-blur-sm">
+            <!-- Icon -->
+            <div
+                class="w-24 h-24 bg-red-50 text-red-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner">
+                <span class="material-icons text-5xl">warning_amber</span>
+            </div>
+
+            <!-- Heading -->
+            <h1 class="text-3xl font-black text-text-light mb-4 tracking-tight leading-tight font-display">
+                Access Restricted
+            </h1>
+
+            <!-- Message -->
+            <p class="text-subtext-light font-medium text-lg mb-10 leading-relaxed px-2 font-sans">
+                You can't see the content because the email linked to your Spotify isn't registered in our dashboard!
+            </p>
+
+            <!-- Action Area -->
+            <div class="space-y-4">
+                <a href="{% url 'home' %}"
+                    class="w-full bg-primary hover:bg-primary-hover text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02] font-display">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
 </body>
 
 </html>

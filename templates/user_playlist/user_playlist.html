@@ -1,125 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>User-Playlist</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Your Playlists - Spotify_Stats</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1DB954", // Spotify Green
+                        "primary-hover": "#1aa34a",
+                        "background-light": "#F3F4F6", // Gray 100
+                        "card-light": "#FFFFFF",
+                        "text-light": "#1F2937", // Gray 800
+                        "subtext-light": "#6B7280", // Gray 500
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                        accent: ["Montserrat", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        'full': '9999px',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 15px rgba(29, 185, 84, 0.3)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .playlist-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .playlist-card:hover {
+            transform: translateY(-8px);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
 
-<div class="home">
-    <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
-</div>
+<body
+    class="bg-background-light font-sans min-h-screen p-4 sm:p-8 antialiased selection:bg-primary selection:text-white transition-colors duration-300">
 
-{% for pl in playlist.items %}
-<div class="uk-card uk-card-default uk-width-1-2@m">
+    <!-- Background Decor -->
+    <div class="fixed inset-0 bg-primary opacity-5 pointer-events-none z-0"></div>
+    <div class="fixed -top-40 -right-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
+    </div>
 
-    <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" src="{{ pl.images.0.url }}">
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-6 z-50">
+        <a href="{% url 'home' %}"
+            class="flex items-center gap-2 px-4 py-2 bg-white text-text-light rounded-full shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 group ring-1 ring-black/5">
+            <span class="material-icons text-primary group-hover:-translate-x-1 transition-transform">arrow_back</span>
+            <span class="font-bold text-sm uppercase tracking-wider font-accent">Home</span>
+        </a>
+    </nav>
+
+    <main class="relative z-10 max-w-7xl mx-auto pt-16">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-text-light tracking-tight mb-4 font-display">
+                Your <span
+                    class="text-primary underline decoration-primary/30 decoration-8 underline-offset-8">Playlists</span>
+            </h1>
+            <p class="text-subtext-light max-w-2xl mx-auto text-lg leading-relaxed">
+                Collection of your curated sounds and favorite moods.
+            </p>
+        </header>
+
+        <div class="flex flex-wrap justify-center gap-8">
+            {% for pl in playlist.items %}
+            <div
+                class="playlist-card group bg-card-light rounded-2xl shadow-soft hover:shadow-xl border border-gray-100 overflow-hidden flex flex-col transition-all duration-300 w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] min-w-[300px] max-w-sm">
+                <!-- Image Container -->
+                <div class="relative overflow-hidden aspect-square">
+                    <img src="{{ pl.images.0.url }}" alt="{{ pl.name }}"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <a href="{{ pl.external_urls.spotify }}" target="_blank"
+                            class="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            Open in Spotify
+                            <span class="material-icons text-sm">open_in_new</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3
+                            class="text-xl font-bold text-text-light group-hover:text-primary transition-colors line-clamp-1 flex-grow pr-4 font-display">
+                            {{ pl.name }}
+                        </h3>
+                        <span
+                            class="shrink-0 px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider {% if pl.public %}bg-green-100 text-green-700{% else %}bg-gray-100 text-gray-700{% endif %}">
+                            {{ pl.public|yesno:"Public,Private" }}
+                        </span>
+                    </div>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center text-sm text-subtext-light">
+                            <span class="material-icons text-xs mr-2 text-primary">person</span>
+                            <span class="font-medium">By {{ pl.owner.display_name }}</span>
+                        </div>
+                        <div class="flex items-center text-sm text-subtext-light">
+                            <span class="material-icons text-xs mr-2 text-primary">audiotrack</span>
+                            <span class="font-medium">{{ pl.tracks.total }} tracks</span>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center text-[11px] font-bold text-subtext-light uppercase tracking-widest">
+                        <p class="text-sm text-subtext-light line-clamp-2">
+                            {{ pl.description|default:"No description available"|safe }}
+                        </p>
+
+                    </div>
+                </div>
             </div>
-            <div class="uk-width-expand">
-                <h3 class="uk-card-title uk-margin-remove-bottom" style="font-size:35px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">{{ pl.name }} <a href="{{ pl.external_urls.spotify }}" style="color:grey;font-size:20px;"> ↗ </a></h3>
-                <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"></p>
-            </div>
+            {% endfor %}
         </div>
-    </div>
+    </main>
 
-    <div class="uk-card-header two">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>By</i> : {{ pl.owner.display_name }}</p>
-    </div>
-    <div class="uk-card-header two">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Total Tracks</i> : {{ pl.tracks.total }}</p>
-    </div>
-
-    <div class="uk-card-header two">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Description</i> : {{ pl.description|default:"No description available" }}</p>
-    </div>
-
-    <div class="uk-card-footer">
-        <p class="uk-text-meta uk-margin-remove-top" style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Public</i> : {{ pl.public|yesno:"Yes,No" }}</p>
-    </div>
-</div>
-{% endfor %}
 
 </body>
 
-<style>
-
-    .uk-button.uk-button-text
-    {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 25px;
-        font-weight: 600;
-        font-style: italic;
-        letter-spacing: 0.5px;
-    }
-
-    .home
-    {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1000;
-    }
-
-    html, body
-    {
-        margin-top: 30px;
-        padding: 0;
-        background-color: #38dc7d;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-start;
-        align-content: flex-start;
-        gap: 20px;
-        min-height: 100vh;
-        padding-top: 60px;
-        border-top: 10px solid  #38dc7d;
-        border-bottom: 25px solid  #38dc7d;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .uk-border-circle
-    {
-        width: 220px;
-        height: 220px;
-        border: none;
-        border-radius: 25px;
-        box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.6);
-    }
-
-    .uk-card.uk-card-default
-    {
-      border: 2px solid black;
-      border-radius: 25px;
-      width: auto;
-      height: auto;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .uk-card-header
-    {
-        padding-right: 15px;
-    }
-
-    .uk-card-header.two, .uk-card-footer
-    {
-           padding-top: 8px;
-           padding-bottom: 8px;
-    }
-
-</style>
 </html>
-
-
-
-

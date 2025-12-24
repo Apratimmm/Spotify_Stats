@@ -2,128 +2,157 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Top-artists</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Top Artists - Spotify_Stats</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1DB954", // Spotify Green
+                        "primary-hover": "#1aa34a",
+                        "background-light": "#F3F4F6", // Gray 100
+                        "card-light": "#FFFFFF",
+                        "text-light": "#1F2937", // Gray 800
+                        "subtext-light": "#6B7280", // Gray 500
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                        accent: ["Montserrat", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        'full': '9999px',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 15px rgba(29, 185, 84, 0.3)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .artist-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .artist-card:hover {
+            transform: translateY(-12px);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
+<body
+    class="bg-background-light font-sans min-h-screen p-4 sm:p-8 antialiased selection:bg-primary selection:text-white transition-colors duration-300">
 
-    <div class="home">
-        <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
+    <!-- Background Decor -->
+    <div class="fixed inset-0 bg-primary opacity-5 pointer-events-none z-0"></div>
+    <div class="fixed -top-40 -right-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
+    </div>
+    <div
+        class="fixed -bottom-40 -left-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
     </div>
 
-    {% for artist in artist.items %}
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-6 z-50">
+        <a href="{% url 'home' %}"
+            class="flex items-center gap-2 px-4 py-2 bg-white text-text-light rounded-full shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 group ring-1 ring-black/5">
+            <span class="material-icons text-primary group-hover:-translate-x-1 transition-transform">arrow_back</span>
+            <span class="font-bold text-sm uppercase tracking-wider font-accent">Home</span>
+        </a>
+    </nav>
 
-    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
-        <div class="uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
-            <img src="{{ artist.images.0.url }}" class="image">
+    <main class="relative z-10 max-w-7xl mx-auto pt-16">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-text-light tracking-tight mb-4 font-display">
+                Top <span
+                    class="text-primary underline decoration-primary/30 decoration-8 underline-offset-8">Artists</span>
+            </h1>
+            <p class="text-subtext-light max-w-2xl mx-auto text-lg leading-relaxed">
+                Your most played artists and current musical obsessions.
+            </p>
+        </header>
 
-            <div class="uk-position-center">
+        <div class="flex flex-wrap justify-center gap-10">
+            {% for artist in artist.items %}
+            <div
+                class="artist-card group bg-card-light rounded-3xl shadow-soft hover:shadow-xl border border-gray-100 p-6 flex flex-col items-center text-center transition-all duration-300 w-full sm:w-[calc(50%-2.5rem)] lg:w-[calc(33.333%-2.5rem)] min-w-[300px] max-w-sm">
 
-                <div class="uk-transition-slide-top-small">
-                    <h4 class="uk-margin-remove"
-                        style="text-align:center; color:#000000; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">
-                        {{ artist.name }}</h4>
+                <!-- Circular Image Container -->
+                <div class="relative mb-6">
+                    <div
+                        class="w-48 h-48 overflow-hidden rounded-full ring-4 ring-primary/20 group-hover:ring-primary/50 transition-all duration-500">
+                        <img src="{{ artist.images.0.url }}" alt="{{ artist.name }}"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <!-- Rank Indicator (Optional, using forloop) -->
+                    <div
+                        class="absolute -top-2 -right-2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg text-sm border-2 border-white">
+                        #{{ forloop.counter }}
+                    </div>
                 </div>
-                <div class="uk-transition-slide-top-small">
-                    <h4 class="uk-margin-remove"
-                        style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">Followers: {{ artist.followers.total }}</h4>
+
+                <!-- Artist Details -->
+                <h3
+                    class="text-2xl font-bold text-text-light group-hover:text-primary transition-colors mb-2 font-display">
+                    {{ artist.name }}
+                </h3>
+
+                <div class="flex flex-wrap justify-center gap-2 mb-4">
+                    {% for genre in artist.genres|slice:":2" %}
+                    <span
+                        class="px-3 py-1 bg-gray-100 text-subtext-light text-[11px] font-bold uppercase tracking-wider rounded-full">
+                        {{ genre }}
+                    </span>
+                    {% endfor %}
                 </div>
 
-                <div class="uk-transition-slide-bottom-small">
-                    <h4 class="uk-margin-remove"
-                        style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">
-                        {% if artist.genres.0 %}
-                        Genre: {{ artist.genres.0 }}
-                        {% endif %}
-                    </h4>
-                </div>
-                <div class="uk-transition-slide-bottom-small">
-                    <h4 class="uk-margin-remove"
-                        style="color:#000000; font-family: 'Inter', sans-serif; font-weight: 500;">Popularity: {{ artist.popularity }}</h4>
+                <div class="grid grid-cols-2 gap-4 w-full pt-4 border-t border-gray-100 mt-auto">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-subtext-light mb-1">Followers</p>
+                        <p class="text-text-light font-semibold text-sm">{{ artist.followers.total }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-subtext-light mb-1">Popularity
+                        </p>
+                        <p class="text-text-light font-semibold text-sm">{{ artist.popularity }}%</p>
+                    </div>
                 </div>
 
-
+                <a href="{{ artist.external_urls.spotify }}" target="_blank"
+                    class="mt-6 w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02]">
+                    Open in Spotify
+                    <span class="material-icons text-sm">open_in_new</span>
+                </a>
             </div>
+            {% endfor %}
         </div>
-    </div>
-
-    {% endfor %}
+    </main>
 
 
 </body>
-
-<style>
-    .uk-button.uk-button-text {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 25px;
-        font-weight: 600;
-        font-style: italic;
-        letter-spacing: 0.5px;
-    }
-
-    .home {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1000;
-    }
-
-    html,
-    body {
-        margin-top: 30px;
-        padding: 0;
-        background-color: #38dc7d;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        gap: 20px;
-        padding-left: 150px;
-        padding-right: 150px;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .uk-card.uk-card-default.uk-card-hover.uk-card-body {
-        display: inline-block;
-        border-radius: 180px;
-        width: 288px;
-        height: 284px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        flex: 0 0 288px;
-    }
-
-    .uk-inline-clip.uk-transition-toggle.uk-light {
-        border: solid 3px black;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-        border-radius: 180px;
-        width: 99%;
-        height: 99%;
-    }
-
-    .uk-inline-clip.uk-transition-toggle.uk-light:hover img {
-        opacity: 0.3;
-    }
-
-    .uk-position-center {
-        width: 178px;
-    }
-</style>
-<script>
-
-</script>
 
 </html>

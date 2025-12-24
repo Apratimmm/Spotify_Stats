@@ -2,185 +2,221 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Recently-played</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Recently Played - Spotify_Stats</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/css/uikit.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.23.11/dist/js/uikit-icons.min.js"></script>
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1DB954", // Spotify Green
+                        "primary-hover": "#1aa34a",
+                        "background-light": "#F3F4F6", // Gray 100
+                        "card-light": "#FFFFFF",
+                        "text-light": "#1F2937", // Gray 800
+                        "subtext-light": "#6B7280", // Gray 500
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                        accent: ["Montserrat", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                        'full': '9999px',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.1)',
+                        'glow': '0 0 15px rgba(29, 185, 84, 0.3)',
+                        'ultra': '0 30px 60px -12px rgba(0, 0, 0, 0.15)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .track-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .track-card:hover {
+            transform: translateY(-8px);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
+<body
+    class="bg-background-light font-sans min-h-screen p-4 sm:p-8 antialiased selection:bg-primary selection:text-white transition-colors duration-300">
 
-    <div class="home">
-        <a href="{% url 'home' %}" class="uk-button uk-button-text">HOME</a>
+    <!-- Background Decor -->
+    <div class="fixed inset-0 bg-primary opacity-5 pointer-events-none z-0"></div>
+    <div class="fixed -top-40 -right-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
+    </div>
+    <div
+        class="fixed -bottom-40 -left-40 w-96 h-96 bg-primary opacity-10 blur-3xl rounded-full pointer-events-none z-0">
     </div>
 
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-6 z-50">
+        <a href="{% url 'home' %}"
+            class="flex items-center gap-2 px-4 py-2 bg-white text-text-light rounded-full shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all duration-300 group ring-1 ring-black/5">
+            <span class="material-icons text-primary group-hover:-translate-x-1 transition-transform">arrow_back</span>
+            <span class="font-bold text-sm uppercase tracking-wider font-accent">Home</span>
+        </a>
+    </nav>
 
-    <div id="info-modal" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body custom-modal">
-            <p style="font-family: 'Inter', sans-serif; font-size: 18px; color: #334155;">Songs that were played for a certain duration are only registered into the database. So, some songs may not be shown in the list.</p>
-            <p class="uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button"
-                    style="border-radius: 50px; color: #334155; border-color: rgba(0,0,0,0.2);">Close</button>
-            </p>
-        </div>
-    </div>
-
-    {% for song in songs.items %}
-    <div class="uk-card uk-card-default uk-width-1-2@m">
-
-        <div class="uk-card-header">
-            <div class="uk-grid-small uk-flex-middle" uk-grid>
-                <div class="uk-width-auto">
-                    <img class="uk-border-circle" src="{{ song.track.album.images.0.url }}">
+    <!-- Info Modal -->
+    <div id="infoModal"
+        class="fixed inset-0 bg-black/10 backdrop-blur-sm z-[100] flex items-center justify-center p-6 transition-all duration-500">
+        <div
+            class="bg-white rounded-[2rem] p-10 max-w-sm w-full shadow-ultra transform transition-all duration-500 scale-100 border border-gray-50">
+            <div class="text-center">
+                <div
+                    class="w-20 h-20 bg-primary/5 text-primary rounded-3xl flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-4xl">info</span>
                 </div>
-                <div class="uk-width-expand">
-                    <h3 class="uk-card-title uk-margin-remove-bottom"
-                        style="font-size:35px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: 0.3px;">
-                        {{ song.track.name }}<a href=" {{ song.track.external_urls.spotify }}"
-                            style="color:grey;font-size:20px;"> ↗ </a></h3>
-                    <p class="uk-text-meta uk-margin-remove-top"
-                        style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;">{{ song.track.album.name }}<a href=" {{ song.track.album.external_urls.spotify }}"> ↗ </a> </p>
-                </div>
+                <h3 class="text-2xl font-black text-text-light mb-2 tracking-tight font-display">Notice</h3>
+                <p class="text-subtext-light font-medium text-sm mb-8 leading-relaxed">
+                    Songs that were played for a certain duration are only registered into the database. Some songs may
+                    not be shown in the list.
+                </p>
+                <button onclick="closeModal()"
+                    class="w-full bg-text-light hover:bg-black text-white py-4 rounded-2xl font-bold transition-all uppercase tracking-widest text-[11px]">
+                    Understood
+                </button>
             </div>
         </div>
-
-        <div class="uk-card-header two ">
-            {% if song.track.album.artists|length == 1 %}
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ song.track.album.artists.0.name }}<a href="{{ song.track.album.artists.0.external_urls.spotify }}"> ↗
-                </a> </p>
-            {% else %}
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Artist</i> : {{ song.track.album.artists.0.name }}<a href="{{ song.track.album.artists.0.external_urls.spotify }}"> ↗
-                </a> ( & others ) </p>
-            {% endif %}
-        </div>
-
-        <div class="uk-card-header two">
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Track_no</i> : {{ song.track.track_number }} / {{ song.track.album.total_tracks }}</p>
-        </div>
-
-        <div class="uk-card-header two">
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Popularity</i> : {{ song.track.popularity }}</p>
-        </div>
-
-        <div class="uk-card-header two">
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Release_date</i> : {{ song.track.album.release_date }}</p>
-        </div>
-
-        <div class="uk-card-header three">
-            <p class="uk-text-meta uk-margin-remove-top"
-                style="font-size:20px; font-family: 'Inter', sans-serif; font-weight: 500;"><i>Played_at</i> : {{ song.played_at|slice:"0:10" }} , {{ song.played_at|slice:"11:16" }} </p>
-        </div>
-
     </div>
-    {% endfor %}
 
+    <main class="relative z-10 max-w-7xl mx-auto pt-16">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-text-light tracking-tight mb-4 font-display">
+                Recently <span
+                    class="text-primary underline decoration-primary/30 decoration-8 underline-offset-8">Played</span>
+            </h1>
+            <p class="text-subtext-light max-w-2xl mx-auto text-lg leading-relaxed">
+                A trip down memory lane. See what's been spinning on your Spotify lately.
+            </p>
+        </header>
+
+        <div class="flex flex-wrap justify-center gap-10">
+            {% for song in songs.items %}
+            <div
+                class="track-card group bg-card-light rounded-3xl shadow-soft hover:shadow-xl border border-gray-100 p-6 flex flex-col transition-all duration-300 w-full sm:w-[calc(50%-2.5rem)] lg:w-[calc(33.333%-2.5rem)] min-w-[300px] max-w-sm">
+
+                <!-- Track Visuals -->
+                <div class="relative mb-6">
+                    <div class="aspect-square w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5">
+                        <img src="{{ song.track.album.images.0.url }}" alt="{{ song.track.name }}"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                </div>
+
+                <!-- Track Content -->
+                <div class="flex-grow flex flex-col">
+                    <div class="mb-4">
+                        <h3
+                            class="text-xl font-bold text-text-light group-hover:text-primary transition-colors line-clamp-1 mb-1 font-display">
+                            {{ song.track.name }}
+                        </h3>
+                        <div class="flex flex-wrap gap-1 text-sm font-medium text-subtext-light">
+                            {% for artist in song.track.album.artists %}
+                            <a href="{{ artist.external_urls.spotify }}" target="_blank"
+                                class="hover:text-primary transition-colors hover:underline decoration-primary/20">
+                                {{ artist.name }}{% if not forloop.last %},{% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Additional Details -->
+                    <div class="grid grid-cols-2 gap-4 w-full pt-4 border-t border-gray-100 mt-auto">
+                        <div class="col-span-2">
+                            <p
+                                class="text-[10px] font-bold uppercase tracking-widest text-subtext-light/60 mb-1 flex items-center gap-1">
+                                <span class="material-icons text-xs">album</span> Album
+                            </p>
+                            <a href="{{ song.track.album.external_urls.spotify }}" target="_blank"
+                                class="text-text-light font-semibold text-sm line-clamp-1 hover:underline decoration-primary/20">
+                                {{ song.track.album.name }}
+                            </a>
+                        </div>
+                        <div class="col-span-2">
+                            <p
+                                class="text-[10px] font-bold uppercase tracking-widest text-subtext-light/60 mb-1 flex items-center gap-1">
+                                <span class="material-icons text-xs">history</span> Played At
+                            </p>
+                            <p class="text-text-light font-semibold text-sm">
+                                {{ song.played_at|slice:"0:10" }} | {{ song.played_at|slice:"11:16" }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-subtext-light/60 mb-1">
+                                Popularity</p>
+                            <div class="flex items-center gap-2">
+                                <span class="text-text-light font-bold text-sm">{{ song.track.popularity }}%</span>
+                                <div class="flex-grow h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary" style="width:{{ song.track.popularity }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-subtext-light/60 mb-1">Track
+                                No.</p>
+                            <p class="text-text-light font-semibold text-sm">{{ song.track.track_number }} / {{
+                                song.track.album.total_tracks }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <a href="{{ song.track.external_urls.spotify }}" target="_blank"
+                        class="mt-6 w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02]">
+                        Open in Spotify
+                        <span class="material-icons text-sm">open_in_new</span>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('infoModal');
+            modal.style.opacity = '1';
+        });
+
+        function closeModal() {
+            const modal = document.getElementById('infoModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500);
+        }
+    </script>
 </body>
-
-<style>
-    .uk-button.uk-button-text {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 25px;
-        font-weight: 600;
-        font-style: italic;
-        letter-spacing: 0.5px;
-    }
-
-    .home {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1000;
-    }
-
-    .caution {
-        position: absolute;
-        top: 50px;
-        left: 10px;
-        z-index: 1000;
-    }
-
-    .uk-link-reset {
-        font-family: 'Inter', sans-serif;
-        font-weight: 600;
-        font-style: italic;
-        color: black;
-        font-size: 22px;
-        letter-spacing: 0.3px;
-    }
-
-    .uk-border-circle {
-        width: 220px;
-        height: 220px;
-        border: none;
-        border-radius: 25px;
-        box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.6);
-    }
-
-    .uk-card.uk-card-default {
-        border: 2px solid black;
-        border-radius: 25px;
-        width: auto;
-        height: auto;
-        margin-top: 50px;
-        font-family: 'Inter', sans-serif;
-    }
-
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #38dc7d;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        align-content: space-around;
-        gap: 20px;
-        min-height: 100vh;
-        border-top: 25px solid #38dc7d;
-        border-bottom: 25px solid #38dc7d;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .uk-card-header {
-        padding-right: 15px;
-    }
-
-    .uk-card-header.two {
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-
-    .uk-card-header.three {
-        padding-top: 8px;
-        padding-bottom: 8px;
-        border-bottom: none;
-    }
-
-    .uk-modal-dialog.custom-modal {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 25px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
-    }
-</style>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        UIkit.modal('#info-modal').show();
-    });
-</script>
 
 </html>
