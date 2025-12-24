@@ -19,7 +19,7 @@ This is a django based web application that allows the user to view multiple sta
 - Django
 - HTML
 - CSS
-- ULKIT
+- Tailwind CSS
 - Spotify API
 
 # Setup_instructions
